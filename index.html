@@ -1,90 +1,71 @@
 <!DOCTYPE html>
 <html>
+
+<head>
+<title>Club Application Form</title>
+</head>
+
 <body>
 
+<form onsubmit="return confirmSubmit()" onreset="return confirmReset()">
+
 <fieldset>
-<legend> Student Info </legend>
-<input type = "number"
-    placeholder = "Student ID"required> <br>
+<legend>Student Info</legend>
 
-<input type = "text"
-    placeholder = "Name"required> <br>
+<input type="number" placeholder="Student ID" required onblur="validateField(this)">
 
-<input type = "date" required> <br>
+<input type="text" placeholder="Name" required onblur="validateField(this)">
 
-<input type = "email" placeholder="Email" required>
+<input type="date" required onblur="validateField(this)">
+
+<input type="email" placeholder="Email" required onblur="validateField(this)">
+
+</fieldset>
+
+
+<fieldset>
+<legend>Application Info</legend>
+
+<input type="text" placeholder="Phone Number" required onblur="validateField(this)">
+
+<select required>
+<option value="">Grade Level</option>
+<option value="7">Grade 7</option>
+<option value="8">Grade 8</option>
+<option value="9">Grade 9</option>
+<option value="10">Grade 10</option>
+<option value="11">Grade 11</option>
+<option value="12">Grade 12</option>
+</select>
+
+<br><br>
+
+<input type="radio" name="type" value="I" required> Intern
+<input type="radio" name="type" value="E"> Extern
+
+<br><br>
+
+<select required>
+<option value="">Choose your club</option>
+<option value="goon">MyLittlePony Club</option>
+<option value="edge">CoolBois Club</option>
+<option value="labubu">Labubu Club</option>
+<option value="jelq">Amongus Club</option>
+<option value="67">Six Seven Club</option>
+</select>
 
 </fieldset>
 
 <br>
 
-<fieldset>
+<textarea placeholder="Why do you wanna join this club?" required onblur="validateField(this)"></textarea>
 
-    <legend> Application Info </legend>
-    <input type = "text" placeholder = "phone number" required> <br>
+<br><br>
 
-    <select required>
-        <option value = "">Grade Level </option>
-        <option value = "7"> Grade 7</option>
-        <option value = "8"> Grade 8 </option>
-        <option value = "9"> Grade 9</option>
-        <option value = "10"> Grade 10</option>
-        <option value = "11"> Grade 11</option>
-        <option value = "12"> Grade 12</option>
+<input type="submit" value="Submit">
+<input type="reset" value="Reset">
 
-        </select><br><br>
-
-        <input type ="radio" name = "type" value = "I" required> Intern
-        <input type = "radio" name = "type" value = "E" required> Extern <br><br>
-
-        <select required>
-
-            <option value = ""> Choose your club </option>
-            <option value = "goon"> Gooning Club </option>
-            <option value = "edge"> Edging club </option>
-            <option value = "labubu"> Labubu club </option>
-            <option value = "Jelq"> Jelqing club </option>
-            <option value = "67"> Six Seven club </option>
-
-            </select>
-            </fieldset>
-
-            <br>
-
-            <textarea placeholder = "Why do you wanna join this club?" required></textarea><br><br>
-
-            <input type = "Submit" value = "submit">
-            <input type = "reset" value = "reset">
-
-
-
-
-
-
-
-
-
-
-
-
-
-        </select>
-
-
-
-
-
-
-
-
-    </select>
-
-
-
-
-
-
-</fieldset>
+</form>
 
 
 
@@ -99,18 +80,144 @@
 
 
 
-
+<nav>
+<a href="2nd Graded.html">2nd Graded</a>
+<a href="1st Non-Graded.html">1st Non-Graded</a>
+</nav>
 
 
 
 </body>
 
+<style>
+nav {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background-color: #ffd23f;
+  display: flex;
+  gap: 40px;
+  padding: 10px 40px;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+nav a {
+color: #66767c;
+text-decoration: none;
+margin: 0 20px;
+font-weight: bold;
+position: relative;
+overflow: hidden;
+transition: color 0.4s ease;
+}
+
+
+nav a::before {
+content: "";
+position: absolute;
+bottom: 0;
+left: -100%;
+width: 100%;
+height: 3px;
+background: linear-gradient(90deg, #e63946, #ffcc00);
+transition: left 0.4s ease;
+}
+
+
+nav a:hover {
+color: #7b3f00;
+transform: scale(1.1);
+}
+
+
+nav a:hover::before {
+left: 0;
+}
+
+
+nav a.active::before {
+left: 0;
+}
+
+nav a.active {
+animation: glow 2s infinite alternate;
+}
+
+
+
+body {
+    font-family: Arial;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+form {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+    width: 350px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid gray;
+}
+
+
+.invalid {
+    border: 2px solid red;
+    background-color: #ffe6e6;
+}
+
+
+.valid {
+    border: 2px solid green;
+    background-color: #e6ffe6;
+}
+
+legend {
+    font-weight: bold;
+    color: #4facfe;
+}
+</style>
 
 
 
 
+<script>
 
+function confirmSubmit() {
+    return confirm("Do you want to submit?");
+}
 
+function confirmReset() {
+    return confirm("Do you want to reset the form?");
+}
+
+function validateField(element) {
+
+    if(element.value.trim() == "") {
+        element.classList.remove("valid");
+        element.classList.add("invalid");
+    }
+    else {
+        element.classList.remove("invalid");
+        element.classList.add("valid");
+    }
+
+}
+
+</script>
 
 
 
