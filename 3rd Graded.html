@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Club Application Form</title>
+</head>
+
+<body>
+
+<h1>Club Application Form</h1>
+
+<form onsubmit="return saveSignup()" onreset="return confirmReset()">
+
+<fieldset>
+<legend>Student Info</legend>
+
+<input type="number" id="studentId" placeholder="Student ID" required onblur="validateField(this)">
+
+<input type="text" id="name" placeholder="Full Name" required onblur="validateField(this)">
+
+<input type="date" id="birthdate" required onblur="validateField(this)">
+
+<input type="email" id="email" placeholder="Email" required onblur="validateField(this)">
+
+</fieldset>
+
+
+<fieldset>
+<legend>Application Info</legend>
+
+<input type="text" id="phone" placeholder="Phone Number" required onblur="validateField(this)">
+
+<select id="grade" required>
+
+<option value="">Grade Level</option>
+<option value="Grade 7">Grade 7</option>
+<option value="Grade 8">Grade 8</option>
+<option value="Grade 9">Grade 9</option>
+<option value="Grade 10">Grade 10</option>
+<option value="Grade 11">Grade 11</option>
+<option value="Grade 12">Grade 12</option>
+
+</select>
+
+
+<br><br>
+
+<input type="radio" name="type" value="Intern" required> Intern
+<input type="radio" name="type" value="Extern"> Extern
+
+<br><br>
+
+
+<select id="club" required>
+
+<option value="">Choose your club</option>
+<option value="MyLittlePony Club">MyLittlePony Club</option>
+<option value="CoolBois Club">CoolBois Club</option>
+<option value="Labubu Club">Labubu Club</option>
+<option value="Amongus Club">Amongus Club</option>
+<option value="Six Seven Club">Six Seven Club</option>
+
+</select>
+
+</fieldset>
+
+
+<textarea id="reason" placeholder="Reason for joining" required onblur="validateField(this)"></textarea>
+
+<br><br>
+
+<input type="submit" value="Submit">
+<input type="reset" value="Reset">
+
+</form>
+
+
+<hr>
+
+
+<h2>List of Students Who Signed-Up</h2>
+
+<label>Filter:</label>
+
+<select id="clubFilter" onchange="displaySignups()">
+
+<option value="ALL">ALL</option>
+<option value="MyLittlePony Club">MyLittlePony Club</option>
+<option value="CoolBois Club">CoolBois Club</option>
+<option value="Labubu Club">Labubu Club</option>
+<option value="Amongus Club">Amongus Club</option>
+<option value="Six Seven Club">Six Seven Club</option>
+
+</select>
+
+
+<h3 id="totalText">Total Signup: 0</h3>
+
+
+<table>
+
+<thead>
+
+<tr>
+<th>Club</th>
+<th>ID</th>
+<th>Name</th>
+<th>Grade</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Type</th>
+</tr>
+
+</thead>
+
+
+<tbody id="tableBody">
+</tbody>
+
+</table>
+
+
+
+<style>
+
+body{
+font-family: Arial;
+background: linear-gradient(to right, #4facfe, #00f2fe);
+padding: 20px;
+}
+
+
+form{
+background: white;
+padding: 20px;
+border-radius: 10px;
+width: 350px;
+}
+
+
+input, select, textarea{
+width: 100%;
+margin: 5px;
+padding: 8px;
+}
+
+
+table{
+width: 100%;
+border-collapse: collapse;
+background: white;
+margin-top: 10px;
+}
+
+
+th{
+background: #4facfe;
+color: white;
+padding: 10px;
+}
+
+
+td{
+padding: 10px;
+border: 1px solid gray;
+}
+
+
+.invalid{
+border: 2px solid red;
+}
+
+
+.valid{
+border: 2px solid green;
+}
+
+</style>
+
+
+
+<script>
+
+let signups=[];
+
+window.onload=function(){
+
+let stored=localStorage.getItem("signups");
+
+if(stored!=null){
+
+signups=JSON.parse(stored);
+
+}
+
+displaySignups();
+
+};
+
+
+function saveSignup(){
+
+if(!confirm("Submit signup?")) return false;
+
+
+let signup={
+
+studentId:studentId.value,
+name:name.value,
+birthdate:birthdate.value,
+email:email.value,
+phone:phone.value,
+grade:grade.value,
+type:document.querySelector("input[name='type']:checked").value,
+club:club.value,
+reason:reason.value
+
+};
+
+
+signups.push(signup);
+
+
+localStorage.setItem("signups",JSON.stringify(signups));
+
+
+displaySignups();
+
+
+alert("Signup saved!");
+
+
+return false;
+
+}
+
+function displaySignups(){
+
+let filter=clubFilter.value;
+
+let table="";
+
+let total=0;
+
+
+for(let s of signups){
+
+if(filter=="ALL" || s.club==filter){
+
+table+=`
+<tr>
+<td>${s.club}</td>
+<td>${s.studentId}</td>
+<td>${s.name}</td>
+<td>${s.grade}</td>
+<td>${s.email}</td>
+<td>${s.phone}</td>
+<td>${s.type}</td>
+</tr>
+`;
+
+total++;
+
+}
+
+}
+
+
+if(total==0){
+
+table=`
+<tr>
+<td colspan="7">No Sign Ups for the club</td>
+</tr>
+`;
+
+}
+
+
+tableBody.innerHTML=table;
+
+totalText.innerText="Total Signup: "+total;
+
+}
+
+
+function confirmReset(){
+
+return confirm("Reset form?");
+
+}
+
+
+
+function validateField(el){
+
+if(el.value=="") el.classList.add("invalid");
+else el.classList.remove("invalid");
+
+}
+
+</script>
+
+</body>
+</html>
